@@ -132,8 +132,6 @@ impl Socket {
     ) -> (Socket, flume::Sender<Bytes>) {
         let (incoming_tx, incoming_rx) = flume::bounded(MPMC_BUFFER_LEN);
 
-        let isn = rand::random::<u32>();
-        info!("ISN for {} -> {}: {}", local_addr, remote_addr, isn);
         (
             Socket {
                 shared,
@@ -141,7 +139,7 @@ impl Socket {
                 incoming: incoming_rx,
                 local_addr,
                 remote_addr,
-                seq: AtomicU32::new(isn),
+                seq: AtomicU32::new(rand::random()),
                 ack: AtomicU32::new(ack.unwrap_or(0)),
                 last_ack: AtomicU32::new(ack.unwrap_or(0)),
                 state,
