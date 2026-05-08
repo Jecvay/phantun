@@ -22,3 +22,11 @@ jobs:
       run: cargo clippy --verbose
     - name: Build
       run: cargo build --verbose
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: phantun-linux-x86_64
+        path: |
+          target/debug/client
+          target/debug/server
+        retention-days: 7
